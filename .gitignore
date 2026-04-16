@@ -1,0 +1,32 @@
+# Dependencies
+vendor/
+node_modules/
+composer.lock
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PHP
+*.cache
+*.tmp
+
+# Database dumps
+*.sql.gz
+*.dump
