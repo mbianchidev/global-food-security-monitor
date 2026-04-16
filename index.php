@@ -292,6 +292,18 @@ foreach ($active_alerts as $alert) {
         .page-item .page-link { background: var(--bg-surface); border-color: rgba(255,255,255,0.1); color: var(--text-primary); }
         .page-item.active .page-link { background: var(--accent); border-color: var(--accent); }
 
+        /* Global dark-theme overrides for Bootstrap elements */
+        .table, .table td, .table th, .table tr { color: var(--text-primary) !important; }
+        .table td, .table th { border-top-color: rgba(255,255,255,0.08); }
+        .table thead th { color: var(--text-secondary) !important; border-bottom-color: rgba(255,255,255,0.15); }
+        .text-muted { color: var(--text-secondary) !important; }
+        h1, h2, h3, h4, h5, h6 { color: #fff; }
+        p { color: var(--text-primary); }
+        a { color: var(--accent); }
+        ul li, ol li { color: var(--text-primary); }
+        strong { color: #fff; }
+        code { background: var(--bg-surface); color: var(--accent); padding: 2px 6px; border-radius: 3px; }
+
         /* Country detail modal */
         .modal-content {
             background: var(--bg-card);
