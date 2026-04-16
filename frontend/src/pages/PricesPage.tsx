@@ -14,7 +14,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 export default function PricesPage() {
   const prices = commodityPrices;
 
-  const { chartData, chartColors } = useMemo(() => {
+  const chartData = useMemo(() => {
     const commodities: Record<string, number[]> = {};
     for (const p of prices) {
       if (!commodities[p.commodity]) commodities[p.commodity] = [];
@@ -28,22 +28,19 @@ export default function PricesPage() {
     });
 
     const colors = ['#e94560', '#0f3460', '#f9e065', '#c6e5b3', '#e67800', '#c80000', '#16213e', '#640000'];
-    const chartColors = names.map((_, i) => colors[i % colors.length]);
+    const barColors = names.map((_, i) => colors[i % colors.length]);
 
     return {
-      chartData: {
-        labels: names,
-        datasets: [
-          {
-            label: 'Avg Price (USD)',
-            data: avgPrices,
-            backgroundColor: chartColors.map(c => c + 'bb'),
-            borderColor: chartColors,
-            borderWidth: 1,
-          },
-        ],
-      },
-      chartColors,
+      labels: names,
+      datasets: [
+        {
+          label: 'Avg Price (USD)',
+          data: avgPrices,
+          backgroundColor: barColors.map(c => c + 'bb'),
+          borderColor: barColors,
+          borderWidth: 1,
+        },
+      ],
     };
   }, [prices]);
 
@@ -67,8 +64,6 @@ export default function PricesPage() {
       legend: { display: false },
     },
   };
-
-  void chartColors;
 
   return (
     <div className="space-y-5">
