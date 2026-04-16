@@ -116,11 +116,25 @@ All API requests go through `api_proxy.php?action=<action>`:
 
 ## Data Sources
 
+> **Note:** The application ships with **mock seed data** in `db.sql`. The local dashboard (countries, IPC classifications, alerts, prices, nutrition) works out of the box with this sample data. The external API proxy endpoints (`fao_*`, `wfp_*`) require valid API keys to return real data — without them those calls will fail, but the rest of the app is fully functional.
+
+### Sources
+
 - **[IPC](https://www.ipcinfo.org/)** — Integrated Food Security Phase Classification
 - **[FAO/FAOSTAT](https://www.fao.org/faostat/)** — Food and agriculture statistics
 - **[WFP VAM](https://dataviz.vam.wfp.org/)** — Vulnerability Analysis and Mapping
 - **[FEWS NET](https://fews.net/)** — Famine Early Warning Systems Network
 - **[UNICEF](https://data.unicef.org/)** — Child nutrition data
+
+### Connecting to Real APIs
+
+To use live data from external APIs, replace the placeholder keys in `config.php`:
+
+| API | Auth Type | How to Get Access |
+|-----|-----------|-------------------|
+| **WFP Data Bridges** | Bearer token (API key) | Sign up at [databridges.vam.wfp.org](https://databridges.vam.wfp.org/), wait for approval, then generate a key in the API Access section. Drop-in replacement for `WFP_API_KEY`. |
+| **FAOSTAT** | JWT (email + password) | Register at [fao.org/faostat](https://www.fao.org/faostat/en/#data). Auth uses short-lived JWT tokens (60 min) — the current proxy sends a static key, so production use would need token refresh logic. |
+| **FEWS NET** | None (public) | No key required. Most endpoints are open at [fews.net/fews-net/1](https://fews.net/fews-net/1). |
 
 ## Modernization
 
