@@ -423,6 +423,18 @@ foreach ($active_alerts as $alert) {
 <!-- Main Content -->
 <div class="dashboard-container">
 
+    <!-- Mock Data Banner -->
+    <div style="background:rgba(15,52,96,0.6);border:1px solid rgba(85,193,233,0.4);border-radius:6px;padding:12px 20px;margin-bottom:20px;display:flex;align-items:center;gap:12px;">
+        <i class="fas fa-flask" style="color:var(--accent);font-size:1.2rem;"></i>
+        <div>
+            <strong style="color:#fff;">Demo Mode — Mock Data</strong>
+            <span style="color:var(--text-secondary);font-size:0.85rem;margin-left:8px;">
+                All data shown is sample/seed data for demonstration purposes. It does not reflect real-world food security conditions.
+                See the <a href="#" data-tab="about" style="color:var(--accent);">About</a> page for instructions on connecting to live APIs.
+            </span>
+        </div>
+    </div>
+
     <!-- ================================================================= -->
     <!-- DASHBOARD TAB -->
     <!-- ================================================================= -->
@@ -710,6 +722,15 @@ foreach ($active_alerts as $alert) {
                     <strong>Last Data Refresh:</strong> <span id="about-last-refresh">—</span>
                 </p>
 
+                <h5>Connecting to Real Data</h5>
+                <p>This application currently runs with <strong>mock seed data</strong>. To connect to live APIs, update the keys in <code>config.php</code>:</p>
+                <table class="table table-sm" style="max-width:700px;">
+                    <thead><tr><th>API</th><th>Auth</th><th>Registration</th></tr></thead>
+                    <tr><td><strong>WFP Data Bridges</strong></td><td>Bearer token</td><td>Sign up at <a href="https://databridges.vam.wfp.org/" target="_blank" style="color:var(--accent)">databridges.vam.wfp.org</a>, wait for approval, generate key</td></tr>
+                    <tr><td><strong>FAOSTAT</strong></td><td>JWT (email/password)</td><td>Register at <a href="https://www.fao.org/faostat/en/#data" target="_blank" style="color:var(--accent)">fao.org/faostat</a> — tokens expire hourly</td></tr>
+                    <tr><td><strong>FEWS NET</strong></td><td>None (public)</td><td>No key needed — endpoints are open</td></tr>
+                </table>
+
                 <div class="alert alert-warning" style="background:rgba(230,120,0,0.15);border-color:var(--phase3-color);color:var(--text-primary);">
                     <i class="fas fa-exclamation-triangle"></i>
                     <strong>Disclaimer:</strong> This is a monitoring tool for informational purposes only.
@@ -733,6 +754,7 @@ foreach ($active_alerts as $alert) {
 <!-- Footer -->
 <div class="footer">
     <?php echo APP_NAME; ?> v<?php echo APP_VERSION; ?> &copy; <?php echo date('Y'); ?> |
+    <span style="color:var(--accent);">⚗ DEMO — MOCK DATA</span> |
     Data sources: IPC, FAO, WFP, FEWS NET, UNICEF |
     <a href="#" style="color:var(--accent);">Report an Issue</a>
 </div>
