@@ -73,7 +73,8 @@ INSERT INTO countries (iso3, iso2, name, region, sub_region, population, latitud
 ('SYR', 'SY', 'Syria', 'Asia', 'Western Asia', 23227014, 34.8021, 38.9968),
 ('YEM', 'YE', 'Yemen', 'Asia', 'Western Asia', 34449825, 15.5527, 48.5164),
 ('ZMB', 'ZM', 'Zambia', 'Africa', 'Eastern Africa', 20569737, -13.1339, 27.8493),
-('ZWE', 'ZW', 'Zimbabwe', 'Africa', 'Eastern Africa', 16665409, -19.0154, 29.1549);
+('ZWE', 'ZW', 'Zimbabwe', 'Africa', 'Eastern Africa', 16665409, -19.0154, 29.1549),
+('GZA', 'PS', 'Gaza Strip', 'Asia', 'Western Asia', 2050000, 31.3547, 34.3088);
 
 -- -----------------------------------------------------------------------------
 -- IPC Food Security Phase Classifications
@@ -107,7 +108,8 @@ INSERT INTO ipc_classifications (country_id, period_start, period_end, phase1_po
 (17, '2025-10-01', '2026-03-31', 3200000, 4500000, 5200000, 2800000, 800000, 16500000, 4),
 (18, '2025-09-01', '2026-02-28', 1800000, 2500000, 3000000, 2200000, 1500000, 11000000, 5),
 (19, '2025-10-01', '2026-03-31', 8000000, 12000000, 14000000, 8500000, 1000000, 43500000, 4),
-(21, '2025-10-01', '2026-03-31', 5000000, 8000000, 10500000, 6200000, 1800000, 31500000, 4);
+(21, '2025-10-01', '2026-03-31', 5000000, 8000000, 10500000, 6200000, 1800000, 31500000, 4),
+(24, '2025-10-01', '2026-03-31', 55000, 135000, 615000, 745000, 500000, 2050000, 5);
 
 -- -----------------------------------------------------------------------------
 -- Commodity Prices
@@ -147,7 +149,11 @@ INSERT INTO commodity_prices (country_id, commodity, market, price, currency, un
 (19, 'Wheat flour', 'Khartoum', 0.88, 'USD', 'kg', '2026-03-01', 'retail'),
 (21, 'Wheat flour', "Sana'a", 0.95, 'USD', 'kg', '2026-03-01', 'retail'),
 (21, 'Rice', "Sana'a", 1.40, 'USD', 'kg', '2026-03-01', 'retail'),
-(21, 'Cooking oil', 'Aden', 2.10, 'USD', 'L', '2026-03-01', 'retail');
+(21, 'Cooking oil', 'Aden', 2.10, 'USD', 'L', '2026-03-01', 'retail'),
+(24, 'Wheat flour', 'Gaza City', 4.50, 'USD', 'kg', '2026-03-01', 'retail'),
+(24, 'Rice', 'Gaza City', 5.20, 'USD', 'kg', '2026-03-01', 'retail'),
+(24, 'Canned food', 'Rafah', 6.80, 'USD', 'can', '2026-03-01', 'retail'),
+(24, 'Cooking oil', 'Khan Yunis', 8.50, 'USD', 'L', '2026-03-01', 'retail');
 
 -- -----------------------------------------------------------------------------
 -- Food Security Alerts
@@ -179,7 +185,9 @@ INSERT INTO alerts (country_id, severity, title, description, source, alert_date
 (9, 'warning', 'Haiti gang violence restricts food access', 'Armed gang control of key transport routes in Artibonite Valley has disrupted food distribution networks.', 'OCHA', '2026-02-28'),
 (5, 'warning', 'CAR displacement crisis ongoing', 'Over 700,000 internally displaced people face limited access to food and agricultural inputs.', 'UNHCR', '2026-02-25'),
 (8, 'warning', 'Ethiopia Tigray recovery stalls', 'Despite ceasefire, food production in Tigray remains 60% below pre-conflict levels. 4.5 million require food assistance.', 'FEWS NET', '2026-02-20'),
-(15, 'warning', 'Niger lean season forecast severe', 'Early warning models predict above-average severity for the 2026 lean season. 3.7 million people projected in IPC Phase 3+.', 'FEWS NET', '2026-02-15');
+(15, 'warning', 'Niger lean season forecast severe', 'Early warning models predict above-average severity for the 2026 lean season. 3.7 million people projected in IPC Phase 3+.', 'FEWS NET', '2026-02-15'),
+(24, 'emergency', 'Gaza famine confirmed by IPC review', 'IPC Phase 5 (Famine) conditions confirmed across northern Gaza. Over 500,000 people face catastrophic hunger. Acute malnutrition rates among children exceed 30% in multiple areas.', 'IPC', '2026-03-18'),
+(24, 'emergency', 'Gaza humanitarian access severely restricted', 'Aid delivery remains critically insufficient. Food imports reduced to a fraction of pre-crisis levels. Clean water and medical supplies near depletion across the territory.', 'OCHA', '2026-03-14');
 
 -- -----------------------------------------------------------------------------
 -- Nutrition Indicators
@@ -214,7 +222,9 @@ INSERT INTO nutrition_data (country_id, indicator, value, year, source) VALUES
 (19, 'stunting', 35.0, 2025, 'UNICEF'),
 (19, 'wasting', 16.3, 2025, 'UNICEF'),
 (21, 'stunting', 46.4, 2025, 'UNICEF'),
-(21, 'wasting', 16.4, 2025, 'UNICEF');
+(21, 'wasting', 16.4, 2025, 'UNICEF'),
+(24, 'stunting', 31.5, 2025, 'UNICEF'),
+(24, 'wasting', 30.2, 2025, 'UNICEF');
 
 -- -----------------------------------------------------------------------------
 -- API Request Log (crude logging, no rotation)
