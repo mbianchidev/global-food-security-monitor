@@ -1,0 +1,37 @@
+services:
+  app:
+    build:
+      context: .
+      no_cache: true
+    ports:
+      - "8000:80"
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_NAME: food_security_monitor
+      DB_USER: root
+      DB_PASS: root_password_123
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_123
+      MYSQL_DATABASE: food_security_monitor
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./db.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot_password_123"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  db_data:

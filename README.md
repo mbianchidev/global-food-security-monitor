@@ -16,10 +16,13 @@ A dashboard for monitoring global food security conditions, aggregating data fro
 ## Project Structure
 
 ```
-├── index.php          # Monolithic entry point (HTML + CSS + JS + PHP)
-├── config.php         # Configuration with hardcoded credentials (!)
-├── api_proxy.php      # API proxy for local data + external APIs (no caching)
-├── db.sql             # Database schema + seed data (no migrations)
+├── index.php              # Monolithic entry point (HTML + CSS + JS + PHP)
+├── config.php             # Configuration with hardcoded credentials (!)
+├── api_proxy.php          # API proxy for local data + external APIs (no caching)
+├── db.sql                 # Database schema + seed data (no migrations)
+├── Dockerfile             # PHP 8.2 + Apache container
+├── docker-compose.yml     # App + MySQL one-command setup
+├── Makefile               # Convenience commands (run, stop, clean, logs)
 ├── MODERNIZATION_PLAN.md  # 7-phase modernization roadmap
 └── README.md
 ```
@@ -34,62 +37,53 @@ This application was built as a legacy baseline. The following issues are **by d
 - 🟠 No `.env` file — all config hardcoded
 - 🟠 No caching on API proxy — every request hits upstream
 - 🟠 No authentication on the dashboard
-- 🟡 No tests, no CI/CD, no containerization
+- 🟡 No tests, no CI/CD
 - 🟡 No database migrations
 - 🟡 Monolithic PHP with inline CSS/JS
 - 🟡 jQuery + global mutable state
 
 ## Prerequisites
 
-- PHP 7.4 or later (with `pdo_mysql`, `curl`, `json`, `mbstring` extensions)
-- MySQL 5.7+ or MariaDB 10.3+
-- Apache with `mod_rewrite` or Nginx + PHP-FPM
-- `curl` extension enabled in PHP
+- [Docker](https://docs.docker.com/get-docker/) and Docker Compose
 
-## Setup
-
-### 1. Create the database
+## Quick Start
 
 ```bash
-mysql -u root -p < db.sql
+make run
 ```
 
-This creates the `food_security_monitor` database with all tables and seed data.
+That's it. Open **http://localhost:8000** once the containers are ready.
 
-### 2. Configure credentials
+Other commands:
 
-Edit `config.php` and update the database credentials:
+| Command | Description |
+|---------|-------------|
+| `make run` | Build and start the app + MySQL |
+| `make stop` | Stop all containers |
+| `make clean` | Stop and remove all containers + data volumes |
+| `make logs` | Follow container logs |
 
-```php
-define('DB_HOST', 'localhost');
-define('DB_PORT', '3306');
-define('DB_NAME', 'food_security_monitor');
-define('DB_USER', 'your_user');
-define('DB_PASS', 'your_password');
-```
+MySQL is also exposed on **localhost:3307** (user: `root`, password: `root_password_123`).
 
-Optionally update the API keys for FAO and WFP data:
+### Manual Setup (without Docker)
 
-```php
-define('FAO_API_KEY', 'your_fao_key');
-define('WFP_API_KEY', 'your_wfp_key');
-```
+<details>
+<summary>Click to expand</summary>
 
-### 3. Serve the application
+Requires PHP 7.4+ (with `pdo_mysql`, `curl`, `json`, `mbstring`) and MySQL 5.7+.
 
-**Using PHP's built-in server (development only):**
+1. Create the database:
+   ```bash
+   mysql -u root -p < db.sql
+   ```
+2. Edit `config.php` — update `DB_USER` and `DB_PASS` to match your local MySQL.
+3. Start the dev server:
+   ```bash
+   php -S localhost:8000
+   ```
+4. Open http://localhost:8000
 
-```bash
-php -S localhost:8000
-```
-
-**Using Apache:** Point your `DocumentRoot` to the project directory.
-
-**Using Nginx + PHP-FPM:** Configure an Nginx server block with `fastcgi_pass` to your PHP-FPM socket.
-
-### 4. Open the dashboard
-
-Navigate to `http://localhost:8000` in your browser.
+</details>
 
 ## Features
 

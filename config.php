@@ -6,12 +6,12 @@
  * This is legacy code — do NOT deploy to production without migrating to environment variables.
  */
 
-// Database Configuration
-define('DB_HOST', 'localhost');
-define('DB_PORT', '3306');
-define('DB_NAME', 'food_security_monitor');
-define('DB_USER', 'root');
-define('DB_PASS', 'root_password_123');
+// Database Configuration (env vars with hardcoded fallbacks — still legacy)
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_PORT', getenv('DB_PORT') ?: '3306');
+define('DB_NAME', getenv('DB_NAME') ?: 'food_security_monitor');
+define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_PASS', getenv('DB_PASS') ?: 'root_password_123');
 define('DB_CHARSET', 'utf8mb4');
 
 // API Keys & Endpoints
