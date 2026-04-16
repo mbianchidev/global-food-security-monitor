@@ -1,0 +1,28 @@
+import type { Country } from '../types';
+
+export const countries: Country[] = [
+  { id: 1, iso3: 'AFG', iso2: 'AF', name: 'Afghanistan', region: 'Asia', sub_region: 'Southern Asia', population: 41128771, gdp_per_capita: null, latitude: 33.9391, longitude: 67.7100 },
+  { id: 2, iso3: 'AGO', iso2: 'AO', name: 'Angola', region: 'Africa', sub_region: 'Middle Africa', population: 35588987, gdp_per_capita: null, latitude: -11.2027, longitude: 17.8739 },
+  { id: 3, iso3: 'BDI', iso2: 'BI', name: 'Burundi', region: 'Africa', sub_region: 'Eastern Africa', population: 12889576, gdp_per_capita: null, latitude: -3.3731, longitude: 29.9189 },
+  { id: 4, iso3: 'BFA', iso2: 'BF', name: 'Burkina Faso', region: 'Africa', sub_region: 'Western Africa', population: 22673762, gdp_per_capita: null, latitude: 12.2383, longitude: -1.5616 },
+  { id: 5, iso3: 'CAF', iso2: 'CF', name: 'Central African Republic', region: 'Africa', sub_region: 'Middle Africa', population: 5990855, gdp_per_capita: null, latitude: 6.6111, longitude: 20.9394 },
+  { id: 6, iso3: 'TCD', iso2: 'TD', name: 'Chad', region: 'Africa', sub_region: 'Middle Africa', population: 17723315, gdp_per_capita: null, latitude: 15.4542, longitude: 18.7322 },
+  { id: 7, iso3: 'COD', iso2: 'CD', name: 'Democratic Republic of the Congo', region: 'Africa', sub_region: 'Middle Africa', population: 102262808, gdp_per_capita: null, latitude: -4.0383, longitude: 21.7587 },
+  { id: 8, iso3: 'ETH', iso2: 'ET', name: 'Ethiopia', region: 'Africa', sub_region: 'Eastern Africa', population: 126527060, gdp_per_capita: null, latitude: 9.1450, longitude: 40.4897 },
+  { id: 9, iso3: 'HTI', iso2: 'HT', name: 'Haiti', region: 'Americas', sub_region: 'Caribbean', population: 11724763, gdp_per_capita: null, latitude: 18.9712, longitude: -72.2852 },
+  { id: 10, iso3: 'KEN', iso2: 'KE', name: 'Kenya', region: 'Africa', sub_region: 'Eastern Africa', population: 55100586, gdp_per_capita: null, latitude: -0.0236, longitude: 37.9062 },
+  { id: 11, iso3: 'MDG', iso2: 'MG', name: 'Madagascar', region: 'Africa', sub_region: 'Eastern Africa', population: 30325732, gdp_per_capita: null, latitude: -18.7669, longitude: 46.8691 },
+  { id: 12, iso3: 'MLI', iso2: 'ML', name: 'Mali', region: 'Africa', sub_region: 'Western Africa', population: 22593590, gdp_per_capita: null, latitude: 17.5707, longitude: -3.9962 },
+  { id: 13, iso3: 'MOZ', iso2: 'MZ', name: 'Mozambique', region: 'Africa', sub_region: 'Eastern Africa', population: 33897354, gdp_per_capita: null, latitude: -18.6657, longitude: 35.5296 },
+  { id: 14, iso3: 'MMR', iso2: 'MM', name: 'Myanmar', region: 'Asia', sub_region: 'South-Eastern Asia', population: 54179306, gdp_per_capita: null, latitude: 21.9162, longitude: 95.9560 },
+  { id: 15, iso3: 'NER', iso2: 'NE', name: 'Niger', region: 'Africa', sub_region: 'Western Africa', population: 26207977, gdp_per_capita: null, latitude: 17.6078, longitude: 8.0817 },
+  { id: 16, iso3: 'NGA', iso2: 'NG', name: 'Nigeria', region: 'Africa', sub_region: 'Western Africa', population: 223804632, gdp_per_capita: null, latitude: 9.0820, longitude: 8.6753 },
+  { id: 17, iso3: 'SOM', iso2: 'SO', name: 'Somalia', region: 'Africa', sub_region: 'Eastern Africa', population: 18143378, gdp_per_capita: null, latitude: 5.1521, longitude: 46.1996 },
+  { id: 18, iso3: 'SSD', iso2: 'SS', name: 'South Sudan', region: 'Africa', sub_region: 'Eastern Africa', population: 11088796, gdp_per_capita: null, latitude: 6.8770, longitude: 31.3070 },
+  { id: 19, iso3: 'SDN', iso2: 'SD', name: 'Sudan', region: 'Africa', sub_region: 'Northern Africa', population: 48109006, gdp_per_capita: null, latitude: 12.8628, longitude: 30.2176 },
+  { id: 20, iso3: 'SYR', iso2: 'SY', name: 'Syria', region: 'Asia', sub_region: 'Western Asia', population: 23227014, gdp_per_capita: null, latitude: 34.8021, longitude: 38.9968 },
+  { id: 21, iso3: 'YEM', iso2: 'YE', name: 'Yemen', region: 'Asia', sub_region: 'Western Asia', population: 34449825, gdp_per_capita: null, latitude: 15.5527, longitude: 48.5164 },
+  { id: 22, iso3: 'ZMB', iso2: 'ZM', name: 'Zambia', region: 'Africa', sub_region: 'Eastern Africa', population: 20569737, gdp_per_capita: null, latitude: -13.1339, longitude: 27.8493 },
+  { id: 23, iso3: 'ZWE', iso2: 'ZW', name: 'Zimbabwe', region: 'Africa', sub_region: 'Eastern Africa', population: 16665409, gdp_per_capita: null, latitude: -19.0154, longitude: 29.1549 },
+  { id: 24, iso3: 'GZA', iso2: 'PS', name: 'Gaza Strip', region: 'Asia', sub_region: 'Western Asia', population: 2050000, gdp_per_capita: null, latitude: 31.3547, longitude: 34.3088 },
+];
