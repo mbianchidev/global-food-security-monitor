@@ -1,0 +1,26 @@
+import type { CommodityPrice } from '../types';
+
+export const commodityPrices: CommodityPrice[] = [
+  { id: 1, country_id: 1, country_name: 'Afghanistan', iso3: 'AFG', commodity: 'Wheat flour', market: 'Kabul', price: 0.62, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 2, country_id: 1, country_name: 'Afghanistan', iso3: 'AFG', commodity: 'Rice', market: 'Kabul', price: 0.85, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 3, country_id: 1, country_name: 'Afghanistan', iso3: 'AFG', commodity: 'Cooking oil', market: 'Kabul', price: 1.95, currency: 'USD', unit: 'L', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 4, country_id: 8, country_name: 'Ethiopia', iso3: 'ETH', commodity: 'Teff', market: 'Addis Ababa', price: 1.45, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 5, country_id: 8, country_name: 'Ethiopia', iso3: 'ETH', commodity: 'Maize', market: 'Addis Ababa', price: 0.55, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 6, country_id: 8, country_name: 'Ethiopia', iso3: 'ETH', commodity: 'Sorghum', market: 'Dire Dawa', price: 0.48, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 7, country_id: 9, country_name: 'Haiti', iso3: 'HTI', commodity: 'Rice', market: 'Port-au-Prince', price: 1.10, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 8, country_id: 9, country_name: 'Haiti', iso3: 'HTI', commodity: 'Black beans', market: 'Port-au-Prince', price: 1.85, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 9, country_id: 16, country_name: 'Nigeria', iso3: 'NGA', commodity: 'Millet', market: 'Lagos', price: 0.78, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 10, country_id: 16, country_name: 'Nigeria', iso3: 'NGA', commodity: 'Rice', market: 'Abuja', price: 1.25, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 11, country_id: 16, country_name: 'Nigeria', iso3: 'NGA', commodity: 'Cassava', market: 'Lagos', price: 0.35, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 12, country_id: 17, country_name: 'Somalia', iso3: 'SOM', commodity: 'Sorghum', market: 'Mogadishu', price: 0.65, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 13, country_id: 17, country_name: 'Somalia', iso3: 'SOM', commodity: 'Rice', market: 'Mogadishu', price: 1.30, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 14, country_id: 19, country_name: 'Sudan', iso3: 'SDN', commodity: 'Sorghum', market: 'Khartoum', price: 0.72, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 15, country_id: 19, country_name: 'Sudan', iso3: 'SDN', commodity: 'Wheat flour', market: 'Khartoum', price: 0.88, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 16, country_id: 21, country_name: 'Yemen', iso3: 'YEM', commodity: 'Wheat flour', market: "Sana'a", price: 0.95, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 17, country_id: 21, country_name: 'Yemen', iso3: 'YEM', commodity: 'Rice', market: "Sana'a", price: 1.40, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 18, country_id: 21, country_name: 'Yemen', iso3: 'YEM', commodity: 'Cooking oil', market: 'Aden', price: 2.10, currency: 'USD', unit: 'L', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 19, country_id: 24, country_name: 'Gaza Strip', iso3: 'GZA', commodity: 'Wheat flour', market: 'Gaza City', price: 4.50, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 20, country_id: 24, country_name: 'Gaza Strip', iso3: 'GZA', commodity: 'Rice', market: 'Gaza City', price: 5.20, currency: 'USD', unit: 'kg', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 21, country_id: 24, country_name: 'Gaza Strip', iso3: 'GZA', commodity: 'Canned food', market: 'Rafah', price: 6.80, currency: 'USD', unit: 'can', price_date: '2026-03-01', price_type: 'retail' },
+  { id: 22, country_id: 24, country_name: 'Gaza Strip', iso3: 'GZA', commodity: 'Cooking oil', market: 'Khan Yunis', price: 8.50, currency: 'USD', unit: 'L', price_date: '2026-03-01', price_type: 'retail' },
+];

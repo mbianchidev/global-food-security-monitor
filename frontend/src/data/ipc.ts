@@ -1,0 +1,18 @@
+import type { IPCClassification } from '../types';
+import { countries } from './countries';
+
+const countryName = (id: number) => countries.find(c => c.id === id)?.name ?? '';
+const countryIso3 = (id: number) => countries.find(c => c.id === id)?.iso3 ?? '';
+
+export const ipcClassifications: IPCClassification[] = [
+  { id: 1, country_id: 1, country_name: countryName(1), iso3: countryIso3(1), period_start: '2025-10-01', period_end: '2026-03-31', phase1_population: 8500000, phase2_population: 12000000, phase3_population: 10200000, phase4_population: 5800000, phase5_population: 2100000, total_analyzed: 38600000, overall_phase: 4, source: 'IPC' },
+  { id: 2, country_id: 5, country_name: countryName(5), iso3: countryIso3(5), period_start: '2025-09-01', period_end: '2026-02-28', phase1_population: 1200000, phase2_population: 1800000, phase3_population: 1500000, phase4_population: 800000, phase5_population: 200000, total_analyzed: 5500000, overall_phase: 4, source: 'IPC' },
+  { id: 3, country_id: 7, country_name: countryName(7), iso3: countryIso3(7), period_start: '2025-10-01', period_end: '2026-03-31', phase1_population: 25000000, phase2_population: 30000000, phase3_population: 25800000, phase4_population: 12500000, phase5_population: 1200000, total_analyzed: 94500000, overall_phase: 4, source: 'IPC' },
+  { id: 4, country_id: 8, country_name: countryName(8), iso3: countryIso3(8), period_start: '2025-10-01', period_end: '2026-03-31', phase1_population: 40000000, phase2_population: 35000000, phase3_population: 20200000, phase4_population: 8500000, phase5_population: 350000, total_analyzed: 104050000, overall_phase: 3, source: 'IPC' },
+  { id: 5, country_id: 9, country_name: countryName(9), iso3: countryIso3(9), period_start: '2025-09-01', period_end: '2026-02-28', phase1_population: 2500000, phase2_population: 3200000, phase3_population: 3800000, phase4_population: 1800000, phase5_population: 400000, total_analyzed: 11700000, overall_phase: 4, source: 'IPC' },
+  { id: 6, country_id: 17, country_name: countryName(17), iso3: countryIso3(17), period_start: '2025-10-01', period_end: '2026-03-31', phase1_population: 3200000, phase2_population: 4500000, phase3_population: 5200000, phase4_population: 2800000, phase5_population: 800000, total_analyzed: 16500000, overall_phase: 4, source: 'IPC' },
+  { id: 7, country_id: 18, country_name: countryName(18), iso3: countryIso3(18), period_start: '2025-09-01', period_end: '2026-02-28', phase1_population: 1800000, phase2_population: 2500000, phase3_population: 3000000, phase4_population: 2200000, phase5_population: 1500000, total_analyzed: 11000000, overall_phase: 5, source: 'IPC' },
+  { id: 8, country_id: 19, country_name: countryName(19), iso3: countryIso3(19), period_start: '2025-10-01', period_end: '2026-03-31', phase1_population: 8000000, phase2_population: 12000000, phase3_population: 14000000, phase4_population: 8500000, phase5_population: 1000000, total_analyzed: 43500000, overall_phase: 4, source: 'IPC' },
+  { id: 9, country_id: 21, country_name: countryName(21), iso3: countryIso3(21), period_start: '2025-10-01', period_end: '2026-03-31', phase1_population: 5000000, phase2_population: 8000000, phase3_population: 10500000, phase4_population: 6200000, phase5_population: 1800000, total_analyzed: 31500000, overall_phase: 4, source: 'IPC' },
+  { id: 10, country_id: 24, country_name: countryName(24), iso3: countryIso3(24), period_start: '2025-10-01', period_end: '2026-03-31', phase1_population: 55000, phase2_population: 135000, phase3_population: 615000, phase4_population: 745000, phase5_population: 500000, total_analyzed: 2050000, overall_phase: 5, source: 'IPC' },
+];
