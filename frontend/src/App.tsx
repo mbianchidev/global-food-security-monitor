@@ -4,6 +4,7 @@ import Footer from './components/layout/Footer';
 import DashboardPage from './pages/DashboardPage';
 import AlertsPage from './pages/AlertsPage';
 import CountriesPage from './pages/CountriesPage';
+import CountryDashboardPage from './pages/CountryDashboardPage';
 import PricesPage from './pages/PricesPage';
 import AboutPage from './pages/AboutPage';
 
@@ -17,6 +18,7 @@ export default function App() {
             <Route path="/" element={<DashboardPage />} />
             <Route path="/alerts" element={<AlertsPage />} />
             <Route path="/countries" element={<CountriesPage />} />
+            <Route path="/country-stats" element={<CountryDashboardPage />} />
             <Route path="/prices" element={<PricesPage />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>

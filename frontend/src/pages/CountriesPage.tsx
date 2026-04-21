@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { countries } from '../data';
 import CountryDetailModal from '../components/countries/CountryDetailModal';
 
@@ -77,12 +78,20 @@ export default function CountriesPage() {
                     {c.population ? c.population.toLocaleString() : 'N/A'}
                   </td>
                   <td className="py-2 px-3 text-center">
-                    <button
-                      onClick={() => setSelectedIso3(c.iso3)}
-                      className="text-[var(--accent)] hover:text-white text-xs border border-[var(--accent)] hover:bg-[var(--accent)] rounded px-2 py-1 transition-colors"
-                    >
-                      👁️ View
-                    </button>
+                    <div className="flex items-center justify-center gap-1">
+                      <button
+                        onClick={() => setSelectedIso3(c.iso3)}
+                        className="text-[var(--accent)] hover:text-white text-xs border border-[var(--accent)] hover:bg-[var(--accent)] rounded px-2 py-1 transition-colors"
+                      >
+                        👁️ View
+                      </button>
+                      <Link
+                        to={`/country-stats?country=${c.iso3}`}
+                        className="text-[var(--accent)] hover:text-white text-xs border border-[var(--accent)] hover:bg-[var(--accent)] rounded px-2 py-1 transition-colors"
+                      >
+                        📊 Stats
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}

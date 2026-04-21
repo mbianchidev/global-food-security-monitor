@@ -1,25 +1,12 @@
 import { useEffect } from 'react';
-import { countries, ipcClassifications, alerts, commodityPrices, nutritionData } from '../../data';
+import { Link } from 'react-router-dom';
+import { getCountryDetail } from '../../utils/countryDetail';
 import IPCBadge from '../common/IPCBadge';
 import SeverityBadge from '../common/SeverityBadge';
-import type { CountryDetail } from '../../types';
 
 interface Props {
   iso3: string;
   onClose: () => void;
-}
-
-function getCountryDetail(iso3: string): CountryDetail | null {
-  const country = countries.find(c => c.iso3 === iso3);
-  if (!country) return null;
-
-  return {
-    country,
-    ipc: ipcClassifications.filter(i => i.country_id === country.id),
-    alerts: alerts.filter(a => a.country_id === country.id && a.is_active),
-    prices: commodityPrices.filter(p => p.country_id === country.id),
-    nutrition: nutritionData.filter(n => n.country_id === country.id),
-  };
 }
 
 export default function CountryDetailModal({ iso3, onClose }: Props) {
@@ -189,7 +176,14 @@ export default function CountryDetailModal({ iso3, onClose }: Props) {
             </div>
           )}
         </div>
-        <div className="p-5 border-t border-white/10 text-right">
+        <div className="p-5 border-t border-white/10 flex justify-between items-center">
+          <Link
+            to={`/country-stats?country=${c.iso3}`}
+            className="text-[var(--accent)] hover:text-white text-sm border border-[var(--accent)] hover:bg-[var(--accent)] rounded px-3 py-1.5 transition-colors"
+            onClick={onClose}
+          >
+            📊 View Full Stats
+          </Link>
           <button
             onClick={onClose}
             className="bg-[var(--bg-surface)] text-white px-4 py-2 rounded hover:bg-[var(--accent)] transition-colors"
