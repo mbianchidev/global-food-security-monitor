@@ -18,6 +18,13 @@ import SeverityBadge from '../components/common/SeverityBadge';
 
 ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
+const alertBorderColor: Record<string, string> = {
+  emergency: 'border-l-[var(--phase5-color)]',
+  critical: 'border-l-[var(--phase4-color)]',
+  warning: 'border-l-[var(--phase3-color)]',
+  info: 'border-l-[var(--phase2-color)]',
+};
+
 function EmptySection({ message }: { message: string }) {
   return (
     <div className="text-center py-6 text-[var(--text-secondary)] text-sm">
@@ -30,12 +37,12 @@ export default function CountryDashboardPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedIso3 = searchParams.get('country')?.toUpperCase() ?? '';
 
-  const dataCountryIso3s = useMemo(() => countriesWithData(), []);
+  const dataCountryIso3s = useMemo(() => new Set(countriesWithData()), []);
 
   const sortedCountries = useMemo(
     () => [...countries].sort((a, b) => {
-      const aHasData = dataCountryIso3s.includes(a.iso3);
-      const bHasData = dataCountryIso3s.includes(b.iso3);
+      const aHasData = dataCountryIso3s.has(a.iso3);
+      const bHasData = dataCountryIso3s.has(b.iso3);
       if (aHasData !== bHasData) return aHasData ? -1 : 1;
       return a.name.localeCompare(b.name);
     }),
@@ -57,7 +64,19 @@ export default function CountryDashboardPage() {
 
   const invalidSelection = selectedIso3 && !detail;
 
-  const latestIpc = detail?.ipc[0] ?? null;
+  const latestIpc = useMemo(() => {
+    if (!detail?.ipc?.length) return null;
+
+    return detail.ipc.reduce((latest, current) => {
+      const latestTimestamp = Date.parse(latest.period_end ?? latest.period_start ?? '');
+      const currentTimestamp = Date.parse(current.period_end ?? current.period_start ?? '');
+
+      if (Number.isNaN(latestTimestamp)) return current;
+      if (Number.isNaN(currentTimestamp)) return latest;
+
+      return currentTimestamp > latestTimestamp ? current : latest;
+    });
+  }, [detail]);
   const crisisPop = latestIpc
     ? latestIpc.phase3_population + latestIpc.phase4_population + latestIpc.phase5_population
     : null;
@@ -152,15 +171,19 @@ export default function CountryDashboardPage() {
             <span className="text-[var(--accent)] mr-2">🏳️</span>
             Country Stats Dashboard
           </h2>
+          <label htmlFor="country-select" className="sr-only">
+            Select a country
+          </label>
           <select
+            id="country-select"
             value={selectedIso3}
             onChange={e => handleCountryChange(e.target.value)}
             className="bg-[var(--bg-surface)] text-[var(--text-primary)] border border-white/20 rounded px-4 py-2 text-sm min-w-[240px]"
           >
             <option value="">Select a country...</option>
             {sortedCountries.map(c => (
-              <option key={c.iso3} value={c.iso3} disabled={!dataCountryIso3s.includes(c.iso3)}>
-                {c.name} ({c.iso3}){!dataCountryIso3s.includes(c.iso3) ? ' — no data' : ''}
+              <option key={c.iso3} value={c.iso3} disabled={!dataCountryIso3s.has(c.iso3)}>
+                {c.name} ({c.iso3}){!dataCountryIso3s.has(c.iso3) ? ' — no data' : ''}
               </option>
             ))}
           </select>
@@ -294,17 +317,10 @@ export default function CountryDashboardPage() {
             </div>
             {detail.alerts.length > 0 ? (
               <div className="space-y-2.5">
-                {detail.alerts.map(alert => {
-                  const borderColor: Record<string, string> = {
-                    emergency: 'border-l-[var(--phase5-color)]',
-                    critical: 'border-l-[var(--phase4-color)]',
-                    warning: 'border-l-[var(--phase3-color)]',
-                    info: 'border-l-[var(--phase2-color)]',
-                  };
-                  return (
+                {detail.alerts.map(alert => (
                     <div
                       key={alert.id}
-                      className={`bg-white/[0.03] rounded-md p-4 border-l-[3px] ${borderColor[alert.severity] ?? 'border-l-gray-500'}`}
+                      className={`bg-white/[0.03] rounded-md p-4 border-l-[3px] ${alertBorderColor[alert.severity] ?? 'border-l-gray-500'}`}
                     >
                       <div className="flex items-center gap-2">
                         <SeverityBadge severity={alert.severity} />
@@ -315,8 +331,7 @@ export default function CountryDashboardPage() {
                       <div className="font-semibold text-white mt-1.5">{alert.title}</div>
                       <div className="text-sm text-[var(--text-secondary)] mt-1">{alert.description}</div>
                     </div>
-                  );
-                })}
+                  ))}
               </div>
             ) : (
               <EmptySection message="No active alerts for this country." />
