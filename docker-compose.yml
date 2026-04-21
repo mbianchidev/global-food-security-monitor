@@ -1,16 +1,18 @@
 services:
   app:
     build:
-      context: .
-      no_cache: true
+      context: ./backend
     ports:
-      - "8000:80"
+      - "8000:8000"
     environment:
+      NODE_ENV: production
       DB_HOST: db
       DB_PORT: "3306"
       DB_NAME: food_security_monitor
       DB_USER: root
       DB_PASS: root_password_123
+      SESSION_SECRET: please-change-this-to-a-32-char-secret-value
+      CORS_ORIGIN: "*"
     depends_on:
       db:
         condition: service_healthy

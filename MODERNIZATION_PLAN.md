@@ -135,6 +135,8 @@ The Global Food Security Monitor is currently a monolithic PHP application with 
 
 ## Phase 2: Backend Rewrite (PHP → Python/FastAPI)
 
+> **Update — chosen stack:** The backend is being rewritten in **Node.js + TypeScript + Fastify** (not Python/FastAPI as originally scoped below). The high-level architecture, endpoint surface, caching, and migration goals described in this section still apply — only the language/framework choice has changed. The implementation lives in `backend/`.
+
 **Goal:** Replace the monolithic PHP backend with a modern, typed, async Python API.
 
 ### 2.1 Project Structure
