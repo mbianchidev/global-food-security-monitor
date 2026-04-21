@@ -50,6 +50,7 @@ foreach ($active_alerts as $alert) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <!-- Inline Styles (all in one place, legacy-style) -->
     <style>
@@ -269,6 +270,14 @@ foreach ($active_alerts as $alert) {
         .phase-badge.p4 { background: var(--phase4-color); }
         .phase-badge.p5 { background: var(--phase5-color); }
 
+        /* Map */
+        #ipc-map { height: 420px; border-radius: 6px; background: var(--bg-surface); }
+        .map-legend { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; font-size: 0.75rem; color: var(--text-secondary); }
+        .map-legend-item { display: flex; align-items: center; gap: 4px; }
+        .map-legend-swatch { width: 16px; height: 12px; border-radius: 2px; }
+        .leaflet-tooltip.ipc-map-tooltip { background: var(--bg-card); color: var(--text-primary); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; font-size: 0.8rem; padding: 6px 10px; }
+        .leaflet-tooltip.ipc-map-tooltip::before { border-right-color: var(--bg-card); }
+
         /* Charts */
         .chart-container { position: relative; height: 300px; }
 
@@ -469,6 +478,22 @@ foreach ($active_alerts as $alert) {
             <div class="kpi-card info">
                 <div class="kpi-value"><?php echo count($countries); ?></div>
                 <div class="kpi-label"><i class="fas fa-globe"></i> Countries Monitored</div>
+            </div>
+        </div>
+
+        <!-- IPC World Map -->
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-title"><i class="fas fa-map-marked-alt"></i> Food Security Map — IPC Phase by Country</div>
+            </div>
+            <div id="ipc-map"></div>
+            <div class="map-legend">
+                <div class="map-legend-item"><div class="map-legend-swatch" style="background:var(--phase1-color)"></div> Phase 1: Minimal</div>
+                <div class="map-legend-item"><div class="map-legend-swatch" style="background:var(--phase2-color)"></div> Phase 2: Stressed</div>
+                <div class="map-legend-item"><div class="map-legend-swatch" style="background:var(--phase3-color)"></div> Phase 3: Crisis</div>
+                <div class="map-legend-item"><div class="map-legend-swatch" style="background:var(--phase4-color)"></div> Phase 4: Emergency</div>
+                <div class="map-legend-item"><div class="map-legend-swatch" style="background:var(--phase5-color)"></div> Phase 5: Famine</div>
+                <div class="map-legend-item"><div class="map-legend-swatch" style="background:#444"></div> No data</div>
             </div>
         </div>
 
@@ -798,6 +823,7 @@ foreach ($active_alerts as $alert) {
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <!-- Inline Application JavaScript (everything in one place, legacy-style) -->
 <script>
@@ -824,6 +850,7 @@ $(document).ready(function() {
     initIpcChart();
     initNutritionChart();
     loadPrices();
+    initIpcMap();
 
     // Tab navigation
     $('[data-tab]').on('click', function(e) {
@@ -937,6 +964,99 @@ function refreshIpcChart() {
         }
     }).fail(function() {
         alert('Failed to refresh IPC data. Please try again.');
+    });
+}
+
+// =============================================================================
+// IPC World Map
+// =============================================================================
+
+var ipcMap = null;
+
+function initIpcMap() {
+    var ipcData = <?php
+        // Build iso3 => { phase, crisis_pop, country_name } lookup
+        $mapData = [];
+        foreach ($ipc_latest as $row) {
+            $crisis = $row['phase3_population'] + $row['phase4_population'] + $row['phase5_population'];
+            $mapData[$row['iso3']] = [
+                'phase' => (int)$row['overall_phase'],
+                'crisis_pop' => $crisis,
+                'name' => $row['country_name']
+            ];
+        }
+        echo json_encode($mapData);
+    ?>;
+
+    var phaseColors = {
+        1: '#c6e5b3',
+        2: '#f9e065',
+        3: '#e67800',
+        4: '#c80000',
+        5: '#640000'
+    };
+
+    var phaseLabels = {
+        1: 'Minimal',
+        2: 'Stressed',
+        3: 'Crisis',
+        4: 'Emergency',
+        5: 'Famine'
+    };
+
+    ipcMap = L.map('ipc-map', {
+        center: [10, 25],
+        zoom: 2,
+        minZoom: 2,
+        maxZoom: 6,
+        worldCopyJump: true,
+        attributionControl: true
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
+    }).addTo(ipcMap);
+
+    // Load GeoJSON country boundaries
+    $.getJSON('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson', function(geojson) {
+        L.geoJSON(geojson, {
+            style: function(feature) {
+                var iso3 = feature.properties.ISO_A3;
+                var d = ipcData[iso3];
+                return {
+                    fillColor: d ? phaseColors[d.phase] : '#444',
+                    weight: 1,
+                    color: 'rgba(255,255,255,0.2)',
+                    fillOpacity: d ? 0.75 : 0.15
+                };
+            },
+            onEachFeature: function(feature, layer) {
+                var iso3 = feature.properties.ISO_A3;
+                var d = ipcData[iso3];
+                if (d) {
+                    layer.bindTooltip(
+                        '<strong>' + escapeHtml(d.name) + '</strong><br>' +
+                        'IPC Phase ' + d.phase + ': ' + phaseLabels[d.phase] + '<br>' +
+                        'Crisis+ Population: ' + Number(d.crisis_pop).toLocaleString(),
+                        { sticky: true, className: 'ipc-map-tooltip' }
+                    );
+                    layer.on('click', function() {
+                        showCountryDetail(iso3);
+                    });
+                    layer.on('mouseover', function() {
+                        layer.setStyle({ weight: 2, color: '#fff', fillOpacity: 0.9 });
+                        layer.bringToFront();
+                    });
+                    layer.on('mouseout', function() {
+                        layer.setStyle({ weight: 1, color: 'rgba(255,255,255,0.2)', fillOpacity: 0.75 });
+                    });
+                } else {
+                    layer.bindTooltip(feature.properties.ADMIN + '<br><em>No data</em>', { sticky: true });
+                }
+            }
+        }).addTo(ipcMap);
     });
 }
 

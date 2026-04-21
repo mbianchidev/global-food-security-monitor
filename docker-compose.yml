@@ -4,7 +4,7 @@ services:
       context: .
       no_cache: true
     ports:
-      - "8000:80"
+      - "${APP_PORT:-0}:80"
     environment:
       DB_HOST: db
       DB_PORT: "3306"
@@ -22,7 +22,7 @@ services:
       MYSQL_ROOT_PASSWORD: root_password_123
       MYSQL_DATABASE: food_security_monitor
     ports:
-      - "3307:3306"
+      - "${DB_EXTERNAL_PORT:-0}:3306"
     volumes:
       - ./db.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
       - db_data:/var/lib/mysql
