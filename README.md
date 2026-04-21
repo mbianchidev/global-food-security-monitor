@@ -87,9 +87,10 @@ The backend is a Fastify app written in TypeScript and lives in [`backend/`](./b
 
 - **Dashboard** — KPI cards, IPC phase distribution chart, nutrition indicators chart, alert feed
 - **Alerts** — Food security alerts with severity filtering (emergency, critical, warning, info)
-- **Countries** — Searchable country list with region filtering and detail modals
+- **Countries** — Searchable country list with region filtering, detail modals, and links to per-country stats
+- **Country Stats** — Per-country dashboard with IPC doughnut chart, nutrition indicators, active alerts, commodity prices, and KPI cards. Deep-linkable via `/#/country-stats?country=AFG`
 - **Prices** — Commodity price data with charts and data tables
-- **Country Detail** — Per-country view with IPC history, active alerts, prices, and nutrition data
+- **Country Detail** — Quick-peek modal with IPC history, active alerts, prices, and nutrition data
 
 ## Data Sources
 
