@@ -10,7 +10,10 @@ const schema = z.object({
   DB_USER: z.string().default('root'),
   DB_PASS: z.string().default(''),
 
-  CORS_ORIGIN: z.string().default('*'),
+  CORS_ORIGIN: z
+    .string()
+    .min(1, 'CORS_ORIGIN is required')
+    .refine((value) => value !== '*', 'CORS_ORIGIN must be an explicit allowed origin; wildcard "*" is not allowed when using credentials'),
 
   SESSION_SECRET: z.string().min(32, 'SESSION_SECRET must be at least 32 chars'),
   SESSION_NAME: z.string().default('GFSM_SESSID'),

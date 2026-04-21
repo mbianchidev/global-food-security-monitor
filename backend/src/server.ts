@@ -8,7 +8,6 @@ import { pool } from './db.js';
 import { registerLocalRoutes } from './routes/local.js';
 import { registerProxyRoutes } from './routes/proxy.js';
 import { registerAuthRoutes } from './routes/auth.js';
-import { registerLegacyDispatcher } from './routes/_legacy.js';
 
 declare module 'fastify' {
   interface Session {
@@ -22,7 +21,7 @@ async function buildServer() {
   const app = Fastify<any, any, any, any>({ loggerInstance: logger });
 
   await app.register(cors, {
-    origin: config.CORS_ORIGIN === '*' ? true : config.CORS_ORIGIN.split(','),
+    origin: config.CORS_ORIGIN.split(','),
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -48,7 +47,6 @@ async function buildServer() {
   await registerLocalRoutes(app);
   await registerProxyRoutes(app);
   await registerAuthRoutes(app);
-  registerLegacyDispatcher(app);
 
   app.setNotFoundHandler((req, reply) => {
     reply.code(404).send({ status: 'error', message: `Not found: ${req.url}` });
@@ -57,7 +55,12 @@ async function buildServer() {
   app.setErrorHandler((err, _req, reply) => {
     app.log.error({ err }, 'Unhandled error');
     const statusCode = (err as any)?.statusCode ?? 500;
-    const message = (err as any)?.message || 'Internal server error';
+    const message =
+      statusCode < 500
+        ? (err as any)?.message || 'Bad request'
+        : config.NODE_ENV === 'production'
+          ? 'Internal server error'
+          : (err as any)?.message || 'Internal server error';
     reply.code(statusCode).send({
       status: 'error',
       message,

@@ -5,14 +5,14 @@ services:
     ports:
       - "8000:8000"
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
       DB_HOST: db
       DB_PORT: "3306"
       DB_NAME: food_security_monitor
       DB_USER: root
-      DB_PASS: root_password_123
-      SESSION_SECRET: please-change-this-to-a-32-char-secret-value
-      CORS_ORIGIN: "*"
+      DB_PASS: ${DB_PASS:-root_password_123}
+      SESSION_SECRET: ${SESSION_SECRET}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000}
     depends_on:
       db:
         condition: service_healthy
@@ -21,7 +21,7 @@ services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: root_password_123
+      MYSQL_ROOT_PASSWORD: ${DB_PASS:-root_password_123}
       MYSQL_DATABASE: food_security_monitor
     ports:
       - "3307:3306"
@@ -29,7 +29,7 @@ services:
       - ./db.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
       - db_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot_password_123"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${DB_PASS:-root_password_123}"]
       interval: 5s
       timeout: 5s
       retries: 20

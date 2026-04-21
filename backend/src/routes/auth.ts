@@ -107,6 +107,7 @@ async function performLogin(
 export const authMiddleware: preHandlerHookHandler = async (request, reply) => {
   if (!request.session.user_id) {
     await reply.code(401).send({ status: 'error', message: 'Authentication required' });
+    return;
   }
 };
 
@@ -118,6 +119,7 @@ export function requireRole(role: Role): preHandlerHookHandler {
     }
     if (request.session.role !== role) {
       await reply.code(403).send({ status: 'error', message: 'Forbidden' });
+      return;
     }
   };
 }

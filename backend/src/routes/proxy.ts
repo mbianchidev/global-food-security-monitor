@@ -100,7 +100,7 @@ const faoProductionSchema = z.object({
 });
 
 const wfpIso3Schema = z.object({
-  iso3: z.string().min(1).default(''),
+  iso3: z.string().min(1),
 });
 
 function buildUrl(base: string, path: string, params: Record<string, string>): string {
