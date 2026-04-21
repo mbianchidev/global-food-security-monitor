@@ -2,14 +2,12 @@
 
 A dashboard for monitoring global food security conditions, aggregating data from IPC, FAO, WFP, FEWS NET, and UNICEF.
 
-> 🛠️ **Modernization in progress** — The original PHP/jQuery/MySQL stack is being replaced. The backend has been rewritten in **Node.js + TypeScript (Fastify)** and lives in [`backend/`](./backend). A new frontend lives in [`frontend/`](./frontend). See [MODERNIZATION_PLAN.md](./MODERNIZATION_PLAN.md) for the full roadmap.
-
-## Current Stack
+## Stack
 
 | Component | Technology |
 |-----------|------------|
 | Backend | Node.js 22 + TypeScript + Fastify (in `backend/`) |
-| Frontend | Modern SPA (in `frontend/`) — replaces the legacy jQuery UI |
+| Frontend | React 19 + Vite + TypeScript + Tailwind CSS (in `frontend/`) |
 | Database | MySQL 8.0 |
 | Container runtime | Docker + Docker Compose |
 
@@ -17,11 +15,10 @@ A dashboard for monitoring global food security conditions, aggregating data fro
 
 ```
 ├── backend/               # Node.js + TypeScript + Fastify API (Dockerfile lives here)
-├── frontend/              # Frontend SPA
+├── frontend/              # React + Vite frontend SPA
 ├── db.sql                 # Database schema + seed data (loaded by MySQL container init)
 ├── docker-compose.yml     # App + MySQL one-command setup
 ├── Makefile               # Convenience commands (run, dev, stop, clean, logs)
-├── MODERNIZATION_PLAN.md  # 7-phase modernization roadmap
 └── README.md
 ```
 
@@ -81,7 +78,7 @@ The backend is a Fastify app written in TypeScript and lives in [`backend/`](./b
 | `GET /api/countries` | List monitored countries |
 | `GET /api/dashboard/summary` | Aggregated KPI data for the dashboard |
 | `POST /api/auth/login` | Session-based authentication |
-| `GET /api_proxy.php?action=...` | **Drop-in compatibility shim** for the legacy PHP proxy — supports the same `action=` values (`countries`, `country_detail`, `ipc_data`, `alerts`, `commodity_prices`, `nutrition`, `dashboard_summary`, `fao_*`, `wfp_*`, `login`, `logout`) so existing clients keep working during the migration. |
+| `GET /api_proxy.php?action=...` | Legacy compatibility shim — supports the same `action=` values (`countries`, `country_detail`, `ipc_data`, `alerts`, `commodity_prices`, `nutrition`, `dashboard_summary`, `fao_*`, `wfp_*`, `login`, `logout`) so existing clients keep working. |
 
 ## Features
 
@@ -113,18 +110,6 @@ To use live data from external APIs, set the relevant keys in `backend/.env` (se
 | **WFP Data Bridges** | Bearer token (API key) | Sign up at [databridges.vam.wfp.org](https://databridges.vam.wfp.org/), wait for approval, then generate a key in the API Access section. Drop-in replacement for `WFP_API_KEY`. |
 | **FAOSTAT** | JWT (email + password) | Register at [fao.org/faostat](https://www.fao.org/faostat/en/#data). Auth uses short-lived JWT tokens (60 min) — the current proxy sends a static key, so production use would need token refresh logic. |
 | **FEWS NET** | None (public) | No key required. Most endpoints are open at [fews.net/fews-net/1](https://fews.net/fews-net/1). |
-
-## Modernization
-
-See [MODERNIZATION_PLAN.md](./MODERNIZATION_PLAN.md) for the 7-phase modernization roadmap:
-
-1. **Phase 1:** Containerization (Docker) & environment config
-2. **Phase 2:** Backend rewrite (PHP → Node.js + TypeScript + Fastify) ✅ in progress
-3. **Phase 3:** Frontend modernization (jQuery → React/Vite)
-4. **Phase 4:** API gateway, caching (Redis), rate limiting
-5. **Phase 5:** CI/CD pipeline, testing, observability
-6. **Phase 6:** Cloud-native deployment (Kubernetes)
-7. **Phase 7:** ML-powered food security forecasting
 
 ## Disclaimer
 
