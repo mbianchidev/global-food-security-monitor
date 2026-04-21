@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { countries, ipcClassifications, alerts, commodityPrices, nutritionData } from '../../data';
 import IPCBadge from '../common/IPCBadge';
 import SeverityBadge from '../common/SeverityBadge';
@@ -24,12 +25,26 @@ function getCountryDetail(iso3: string): CountryDetail | null {
 export default function CountryDetailModal({ iso3, onClose }: Props) {
   const detail = getCountryDetail(iso3);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   if (!detail) {
     return (
       <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4" onClick={onClose}>
-        <div className="bg-[var(--bg-card)] rounded-lg p-6 max-w-2xl w-full" onClick={e => e.stopPropagation()}>
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Country not found"
+          className="bg-[var(--bg-card)] rounded-lg p-6 max-w-2xl w-full"
+          onClick={e => e.stopPropagation()}
+        >
           <p className="text-center text-red-400">Country not found.</p>
-          <button onClick={onClose} className="mt-4 bg-[var(--bg-surface)] text-white px-4 py-2 rounded">
+          <button onClick={onClose} aria-label="Close" className="mt-4 bg-[var(--bg-surface)] text-white px-4 py-2 rounded">
             Close
           </button>
         </div>
@@ -42,14 +57,17 @@ export default function CountryDetailModal({ iso3, onClose }: Props) {
   return (
     <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4" onClick={onClose}>
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
         className="bg-[var(--bg-card)] rounded-lg max-w-3xl w-full max-h-[85vh] overflow-y-auto border border-white/10"
         onClick={e => e.stopPropagation()}
       >
         <div className="flex justify-between items-center p-5 border-b border-white/10">
-          <h2 className="text-white text-lg font-bold">
+          <h2 id="modal-title" className="text-white text-lg font-bold">
             {c.name} ({c.iso3})
           </h2>
-          <button onClick={onClose} className="text-white text-2xl hover:text-[var(--accent)]">
+          <button onClick={onClose} aria-label="Close" className="text-white text-2xl hover:text-[var(--accent)]">
             &times;
           </button>
         </div>
@@ -103,7 +121,7 @@ export default function CountryDetailModal({ iso3, onClose }: Props) {
               </h3>
               <div className="space-y-2">
                 {countryAlerts.map(alert => (
-                  <div key={alert.id} className="bg-white/[0.03] rounded p-3 border-l-3 border-l-[var(--phase4-color)]">
+                  <div key={alert.id} className="bg-white/[0.03] rounded p-3 border-l-[3px] border-l-[var(--phase4-color)]">
                     <SeverityBadge severity={alert.severity} />
                     <span className="text-white font-semibold ml-2">{alert.title}</span>
                     <div className="text-sm text-[var(--text-secondary)] mt-1">{alert.description}</div>

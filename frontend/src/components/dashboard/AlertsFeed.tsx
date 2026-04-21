@@ -28,7 +28,7 @@ export default function AlertsFeed({ alerts, maxItems = 5 }: Props) {
         {shown.map(alert => (
           <div
             key={alert.id}
-            className={`bg-white/[0.03] rounded-md p-3.5 border-l-3 ${borderColor[alert.severity] ?? 'border-l-gray-500'} hover:bg-white/[0.06] transition-colors`}
+            className={`bg-white/[0.03] rounded-md p-3.5 border-l-[3px] ${borderColor[alert.severity] ?? 'border-l-gray-500'} hover:bg-white/[0.06] transition-colors`}
           >
             <SeverityBadge severity={alert.severity} />
             <div className="font-semibold text-white mt-1.5">{alert.title}</div>

@@ -41,8 +41,16 @@ export default function IPCTable({ data, onCountryClick }: Props) {
               return (
                 <tr
                   key={row.id}
-                  className="border-b border-white/5 hover:bg-white/5 cursor-pointer transition-colors"
+                  className="border-b border-white/5 hover:bg-white/5 cursor-pointer transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--accent)]"
                   onClick={() => onCountryClick(row.iso3)}
+                  onKeyDown={event => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      onCountryClick(row.iso3);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
                 >
                   <td className="py-2 px-3">
                     <span className="font-semibold text-white">{row.country_name}</span>

@@ -40,7 +40,7 @@ export default function AlertsPage() {
         {filtered.map(alert => (
           <div
             key={alert.id}
-            className={`bg-white/[0.03] rounded-md p-4 border-l-3 ${borderColor[alert.severity] ?? 'border-l-gray-500'} hover:bg-white/[0.06] transition-colors`}
+            className={`bg-white/[0.03] rounded-md p-4 border-l-[3px] ${borderColor[alert.severity] ?? 'border-l-gray-500'} hover:bg-white/[0.06] transition-colors`}
           >
             <div className="flex items-center gap-2 flex-wrap">
               <SeverityBadge severity={alert.severity} />
